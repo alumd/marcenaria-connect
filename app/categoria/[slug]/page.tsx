@@ -14,7 +14,7 @@ export default function CategoriaPage({ params }: { params: Promise<{ slug: stri
   const [ultimaAtualizacao, setUltimaAtualizacao] = useState<Date>(new Date());
 
   useEffect(() => {
-    if (!slug) return;
+    if (!slug) return
     
     carregarDados();
 

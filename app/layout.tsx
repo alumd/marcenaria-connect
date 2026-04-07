@@ -1,42 +1,26 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import CookieConsent from "./components/CookieConsent";
-import Footer from "./components/Footer";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Marcenaria Connect - Encontre Profissionais",
-  description: "Conecte-se com os melhores marceneiros para seus projetos",
-};
+import './globals.css'
+import Header from './components/Header'
+import CookieConsent from './components/CookieConsent'
+import Footer from './components/Footer'
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-zinc-50">
+    <html lang="pt-BR">
+      <body className="flex flex-col min-h-screen bg-zinc-50">
+        {/* Navegação em todas as páginas */}
+        <Header />
+        
         <main className="flex-1">
           {children}
         </main>
-        
+
         <Footer />
         <CookieConsent />
       </body>
     </html>
-  );
+  )
 }
