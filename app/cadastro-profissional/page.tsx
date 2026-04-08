@@ -386,28 +386,140 @@ export default function CadastroProfissional() {
         )}
 
         {step === 3 && (
-          <div className="bg-white rounded-2xl shadow-lg p-8 text-center border border-zinc-100">
-            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
-              <CheckCircle2 className="w-12 h-12 text-green-600" />
-            </div>
-            <h2 className="text-3xl font-bold text-zinc-900 mb-3">Cadastro Realizado! 🎉</h2>
-            <p className="text-zinc-600 mb-2">
-              Sua conta foi criada com sucesso.
-            </p>
-            <p className="text-zinc-500 text-sm mb-8">
-              Você será redirecionado para o seu dashboard em instantes...
-            </p>
-            <div className="w-full bg-zinc-100 rounded-full h-2 mb-6 overflow-hidden">
-              <div className="bg-amber-600 h-full rounded-full animate-pulse w-full" />
-            </div>
-            <Link
-              href="/profissional/dashboard"
-              className="inline-block bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors"
-            >
-              Ir para Dashboard
-            </Link>
+  <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center border border-zinc-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    {/* Badge de sucesso */}
+    <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+      <CheckCircle2 className="w-4 h-4" />
+      Conta criada com sucesso!
+    </div>
+
+    {/* Ícone grande animado */}
+    <div className="relative w-24 h-24 mx-auto mb-6">
+      <div className="absolute inset-0 bg-green-100 rounded-full animate-ping opacity-25"></div>
+      <div className="relative w-24 h-24 bg-green-100 rounded-full flex items-center justify-center animate-bounce">
+        <PartyPopper className="w-12 h-12 text-green-600" />
+      </div>
+      <div className="absolute -top-2 -right-2 w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center text-white text-lg">
+        🎉
+      </div>
+    </div>
+
+    <h2 className="text-3xl font-bold text-zinc-900 mb-3">
+      Bem-vindo à Marcenaria Connect! 🚀
+    </h2>
+    
+    <p className="text-zinc-600 text-lg mb-8 max-w-lg mx-auto">
+      Seu cadastro foi realizado, mas precisamos confirmar seu e-mail antes de começar.
+    </p>
+
+    {/* Tutorial Passo a Passo */}
+    <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 mb-8 text-left">
+      <h3 className="font-bold text-amber-900 mb-4 flex items-center gap-2">
+        <Mail className="w-5 h-5" />
+        O que fazer agora?
+      </h3>
+      
+      <div className="space-y-4">
+        <div className="flex items-start gap-4">
+          <div className="w-8 h-8 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+            1
           </div>
-        )}
+          <div>
+            <p className="font-semibold text-amber-900">Abra seu e-mail</p>
+            <p className="text-sm text-amber-800">
+              Enviamos um e-mail para: <strong className="break-all">{formData.email}</strong>
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-4">
+          <div className="w-8 h-8 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+            2
+          </div>
+          <div>
+            <p className="font-semibold text-amber-900">Procure na caixa de entrada</p>
+            <p className="text-sm text-amber-800">
+              Assunto: <strong>"Confirme seu e-mail"</strong> ou <strong>"Confirmação de cadastro"</strong>
+            </p>
+            <div className="mt-2 bg-white/50 rounded-lg p-2 text-xs text-amber-700 flex items-center gap-2">
+              <Search className="w-4 h-4" />
+              Não achou? Olhe na pasta <strong>Spam</strong> ou <strong>Lixo Eletrônico</strong>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-4">
+          <div className="w-8 h-8 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+            3
+          </div>
+          <div>
+            <p className="font-semibold text-amber-900">Clique no link</p>
+            <p className="text-sm text-amber-800">
+              Abra o e-mail e clique no botão verde <strong>"Confirmar e-mail"</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Ações */}
+    <div className="space-y-3">
+      <a 
+        href={`https://mail.google.com/mail/u/0/#search/from%3Anoreply%40supabase.co+OR+confirm`} 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full inline-flex items-center justify-center gap-2 bg-amber-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-amber-700 transition-all hover:scale-[1.02] shadow-lg shadow-amber-600/20"
+      >
+        <Mail className="w-5 h-5" />
+        Abrir Gmail (se for seu e-mail)
+      </a>
+
+      <div className="grid grid-cols-2 gap-3">
+        <button
+          onClick={async () => {
+            // Reenviar e-mail de confirmação
+            const { error } = await supabase.auth.resend({
+              type: 'signup',
+              email: formData.email,
+            })
+            if (!error) {
+              alert('E-mail reenviado! Verifique sua caixa de entrada.')
+            }
+          }}
+          className="flex items-center justify-center gap-2 bg-zinc-100 text-zinc-700 py-3 rounded-lg font-medium hover:bg-zinc-200 transition-colors"
+        >
+          <RefreshCw className="w-4 h-4" />
+          Reenviar e-mail
+        </button>
+        
+        <Link
+          href="/login"
+          className="flex items-center justify-center gap-2 bg-zinc-900 text-white py-3 rounded-lg font-medium hover:bg-zinc-800 transition-colors"
+        >
+          <ArrowRight className="w-4 h-4" />
+          Ir para Login
+        </Link>
+      </div>
+    </div>
+
+    {/* Dica final */}
+    <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl text-left">
+      <p className="text-sm text-blue-800 flex items-start gap-2">
+        <HelpCircle className="w-5 h-5 flex-shrink-0 text-blue-600" />
+        <span>
+          <strong>Dica:</strong> O e-mail pode demorar até 5 minutos para chegar. 
+          Se não receber após este tempo, clique em "Reenviar e-mail" acima ou 
+          verifique se digitou o e-mail correto: <strong>{formData.email}</strong>
+        </span>
+      </p>
+    </div>
+
+    {/* Timer para redirecionamento opcional */}
+    <p className="mt-6 text-sm text-zinc-500">
+      Você será redirecionado para o login em alguns instantes...
+    </p>
+  </div>
+)}
       </div>
     </div>
   )
